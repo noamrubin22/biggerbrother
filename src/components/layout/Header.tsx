@@ -3,19 +3,19 @@ import styles from "./header.module.css";
 import { ConnectButton } from "../landing/ConnectButton";
 
 interface HeaderProps {
-  showWallet: boolean;
+  isWalletConnected: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ showWallet }) => {
+export const Header: React.FC<HeaderProps> = ({ isWalletConnected }) => {
   return (
     <header
       className={`w-full justify-${
-        showWallet ? "around" : "center"
-      }  font-mono text-center text-sm lg:flex `}
+        isWalletConnected ? "around" : "center"
+      }  font-mono text-center text-sm flex`}
     >
       <h1 className="text-3xl m-2">BIGGER BROTHER</h1>
 
-      {showWallet && <ConnectButton />}
+      {isWalletConnected && <ConnectButton />}
     </header>
   );
 };

@@ -13,14 +13,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div
-      className={`flex w-full flex-col p-4 min-h-screen h-screen`}
+      className={`flex w-full flex-col p-4 min-h-screen h-screen overflow-hidden`}
       style={{ height: "100svh" }}
     >
-      <Header showWallet={isConnected} />
-      <main className="flex min-h-min flex-col justify-around items-center h-full p-24">
+      <Header isWalletConnected={isConnected} />
+      <main className="flex min-h-min flex-col justify-around items-center h-full">
         {children}
       </main>
-      <Footer />
+      <Footer showText={isConnected ?? false} />
     </div>
   );
 };
