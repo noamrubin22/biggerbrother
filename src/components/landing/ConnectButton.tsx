@@ -1,10 +1,12 @@
 import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { useAccount, useDisconnect } from "wagmi";
 
 export const ConnectButton = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isClient, setIsClient] = useState(false); // Track whether component is running on the client.
+  const router = useRouter();
 
   const { open } = useWeb3Modal();
   const { isConnected } = useAccount();
@@ -20,9 +22,14 @@ export const ConnectButton = () => {
     setLoading(false);
   };
 
+  const onDisconnect = () => {
+    router.push("/");
+    disconnect();
+  };
+
   const onClick = () => {
     if (isConnected) {
-      disconnect();
+      onDisconnect();
     } else {
       onOpen();
     }
