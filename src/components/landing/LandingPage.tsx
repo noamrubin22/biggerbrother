@@ -10,7 +10,8 @@ export const LandingPage = () => {
 
   if (isConnected) {
     console.log(address);
-    router.push("/dashboard");
+    //router.push("/dashboard");
+    router.push("/chat")
   }
 
   return (
