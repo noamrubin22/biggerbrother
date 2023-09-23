@@ -24,5 +24,8 @@
     "typescript": "5.2.2",
     "viem": "^1.12.1",
     "wagmi": "^1.4.2"
+  },
+  "devDependencies": {
+    "daisyui": "^3.7.7"
   }
 }

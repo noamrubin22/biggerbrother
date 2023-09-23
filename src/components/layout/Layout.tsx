@@ -3,7 +3,6 @@ import { Footer } from "./Footer";
 import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
 import { useAccount } from "wagmi";
-import { useRouter } from "next/router";
 
 interface LayoutProps {
   children: ReactNode;
@@ -11,21 +10,14 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { isConnected } = useAccount();
-  const router = useRouter();
-
-  // useEffect(() => {
-  //   if (!isConnected) {
-  //     router.push("/");
-  //   }
-  // });
 
   return (
     <div
-      className={`flex w-full h-full flex-col p-4`}
+      className={`flex w-full flex-col p-4 min-h-screen h-screen`}
       style={{ height: "100svh" }}
     >
       <Header showWallet={isConnected} />
-      <main className="flex min-h-screen flex-col justify-around items-center p-24">
+      <main className="flex min-h-min flex-col justify-around items-center h-full p-24">
         {children}
       </main>
       <Footer />
