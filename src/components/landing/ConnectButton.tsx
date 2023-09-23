@@ -11,7 +11,6 @@ export const ConnectButton = () => {
   const { disconnect } = useDisconnect();
 
   useEffect(() => {
-    // Set isClient to true when the component runs on the client.
     setIsClient(true);
   }, []);
 
@@ -31,7 +30,7 @@ export const ConnectButton = () => {
 
   return (
     <>
-      {isClient && ( // Render the button text only on the client.
+      {isClient && (
         <button
           onClick={onClick}
           disabled={loading}
