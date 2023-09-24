@@ -51,7 +51,7 @@ export const DashboardPage = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 8 }}
+      transition={{ duration: 4 }}
     >
       {showPoliticianForm ? <Form /> : <Politicians />}
     </motion.div>

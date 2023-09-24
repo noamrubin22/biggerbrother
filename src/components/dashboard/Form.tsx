@@ -102,11 +102,11 @@ export const Form = () => {
 
   return (
     <div className="flex w-screen justify-evenly">
-      <button>
-        <img src="/back-btn.png" alt="Back button" onClick={handleClick} />
-      </button>
-      <div className="font-mono">
-        <h1 className="text-3xl text-center">Add a politician</h1>
+      <div className="font-mono m-2">
+        <button>
+          <img src="/back-btn.png" alt="Back button" onClick={handleClick} />
+        </button>
+        <h1 className="text-3xl flex self-center">Add a politician</h1>
         <form
           onSubmit={(e) => {
             handleSubmit(e);

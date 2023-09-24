@@ -3,23 +3,29 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { TruthMeasure } from "../dashboard/TruthMeasure";
+import politiciansData from "../../../data/politiciansData";
 
-const DUMMY_DATA = [
-  "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
-  "Earum, id quibusdam ipsum nisi est eveniet necessitatibus cum nobis",
-  "dignissimos mollitia, reiciendis minima pariatur magni soluta quod",
-  "enim facilis commodi dolores suscipit neque nostrum fugiat totam non!",
-  "Nostrum expedita minus reprehenderit ducimus, velit iure minima modi eligendi",
-  "eius in libero voluptates eum soluta voluptate sed",
-];
+const findPoliticianData = (name: string) => {
+  const politicianData = politiciansData.find((politician) => {
+    return politician.name === name;
+  });
+
+  return politicianData;
+};
 
 export const PoliticianPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showAddPromises, setShowAddPromises] = useState<boolean>(false);
 
   const router = useRouter();
   const name = Array.isArray(router.query.name)
     ? router.query.name[0]
     : router.query.name;
+
+  let politicianData;
+  if (name) {
+    politicianData = findPoliticianData(name);
+  }
 
   const image = Array.isArray(router.query.image)
     ? router.query.image[0]
@@ -34,68 +40,50 @@ export const PoliticianPage = () => {
     visible: { opacity: 1 },
   };
 
+  const handleClick = () => {
+    router.push("/dashboard");
+  };
+
   return (
     <motion.div
-      className="flex flex-col items-center font-mono"
+      className="flex flex-col items-center font-mono overflow-y-auto"
       initial="hidden"
       animate="visible"
       variants={fadeInVariants}
       transition={{ duration: 3 }}
     >
-      <div className="flex flex-col  font-mono">
-        <h1 className="text-5xl m-3 secondary-font ">{name}</h1>
-        <div className="flex self-center gap-2 ">
-          {/* <Image src={`${image}`} alt={"name"} width={600} height={200} /> */}
-          <div className="avatar">
-            <div className="w-52 rounded-xl">
-              <img src={image} alt={"name"} />
-            </div>
+      <button>
+        <img src="/back-btn.png" alt="Back button" onClick={handleClick} />
+      </button>
+      <div className="flex flex-col items-center font-mono">
+        <h1 className="text-5xl m-3 secondary-font  text-center">{name}</h1>
+        <div className="flex self-center justify-center align-center items-center gap-5 ">
+          <div className="w-1/5 rounded-xl">
+            <img src={image} alt={"name"} />
           </div>
+          <div className="avatar"></div>
           {truthPercentage && (
             <TruthMeasure truthPercentage={truthPercentage} />
           )}
-          <div>
-            <label className="flex flex-col text-left">
-              <h2 className="mt-4">Add evidence</h2>
-              <p className="label-text text-xs my-2 ">Claim</p>
-              <input
-                type="text"
-                name="description"
-                placeholder="Claim"
-                className="input input-bordered w-full max-w-xs"
-              />
-            </label>
-            <label className="flex flex-col text-left">
-              <p className="label-text text-xs my-2 ">Link to source</p>
-              <input
-                type="text"
-                name="description"
-                placeholder="https://www..."
-                className="input input-bordered w-full max-w-xs"
-              />
-            </label>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="px-10 mt-5 text-lg w-full h-10 btn bg-neutral-900 hover:bg-black/70 rounded-md "
-            >
-              {isLoading ? (
-                <span className="loading loading-infinity loading-lg"></span>
-              ) : (
-                "Send"
-              )}
-            </button>
-          </div>
         </div>
-        <div>
+        <div className="w-3/4 text-neutral-500 font-mono">
           <ul>
-            {DUMMY_DATA.map((el, index) => {
-              return (
-                <li className="m-5 p-2 border rounded-lg " key={index}>
-                  <p>{el}</p>
-                </li>
-              );
-            })}
+            {politicianData &&
+              politicianData.promises.map((promise, index) => {
+                return (
+                  <li className="m-3 p-2 rounded-lg text-center " key={index}>
+                    <div className="collapse bg-neutral-900 ">
+                      <input type="checkbox" />
+                      <div className="collapse-title text-xl font-medium text-neutral-400">
+                        {promise.title}
+                      </div>
+                      <div className="collapse-content">
+                        <p>{promise.description}</p>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
           </ul>
         </div>
       </div>
