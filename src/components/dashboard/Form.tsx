@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
-export const PoliticianForm = () => {
+export const Form = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 

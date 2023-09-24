@@ -3,7 +3,7 @@ import { Card } from "./Card";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { Politicians } from "./Politicians";
-import { PoliticianForm } from "./PoliticianForm";
+import { Form } from "./Form";
 import { useFormContext } from "../layout/Layout";
 
 export const DashboardPage = () => {
@@ -17,7 +17,7 @@ export const DashboardPage = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 8 }}
     >
-      {showPoliticianForm ? <PoliticianForm /> : <Politicians />}
+      {showPoliticianForm ? <Form /> : <Politicians />}
     </motion.div>
   );
 };
