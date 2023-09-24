@@ -3,6 +3,20 @@ import React, { useState } from "react";
 import { createHelia } from 'helia'
 import { json } from '@helia/json'
 import lighthouse from "@lighthouse-web3/sdk";
+// Import the NFTStorage class and File constructor from the 'nft.storage' package
+import { NFTStorage, File } from 'nft.storage'
+
+// The 'mime' npm package helps us set the correct file type on our File objects
+import mime from 'mime'
+
+// The 'fs' builtin module on Node.js provides access to the file system
+import fs from 'fs'
+
+// The 'path' module provides helpers for manipulating filesystem paths
+import path from 'path'
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const Form = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -34,6 +48,52 @@ export const Form = () => {
   };
 
 
+  /**
+  * Reads an image file from `imagePath` and stores an NFT with the given name and description.
+  * @param {string} imagePath the path to an image file
+  * @param {string} name a name for the NFT
+  * @param {string} description a text description for the NFT
+  */
+  async function storeNFT(imagePath, name, description) {
+    console.log("hereee")
+    // load the file from disk
+    // Create an object containing the data you want to send
+    const dataToSend = {
+      imagePath: imagePath,
+      name: name,
+      description: description,
+    };
+
+    try {
+      const result = await fetch('/api/hello', {
+        method: 'POST', // Use POST to send data in the request body
+        headers: {
+          'Content-Type': 'application/json', // Set the content type to JSON
+        },
+        body: JSON.stringify(dataToSend), // Serialize the data as JSON and send it in the body
+      });
+      // create a new NFTStorage client using our API key
+      console.log(result)
+      // Handle the response as needed
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    // const image = await fileFromPath(imagePath)
+  }
+
+  // /**
+  //   * A helper to read a file from a location on disk and return a File object.
+  //   * Note that this reads the entire file into memory and should not be used for
+  //   * very large files. 
+  //   * @param {string} filePath the path to a file to store
+  //   * @returns {File} a File object containing the file content
+  //   */
+  // async function fileFromPath(filePath) {
+  //   const content = await fs.promises.readFile(filePath)
+  //   const type = mime.getType(filePath)
+  //   return new File([content], path.basename(filePath), { type })
+  // }
+
 
   const handleAddPolitician = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -59,13 +119,22 @@ export const Form = () => {
     console.log("politicianCID toJSON()", politicianCID.toJSON())
     console.log("politicianCID link()", politicianCID.link())
 
+    // // upload image to file to light house 
+    // const evidenceCID = await lighthouse.upload(formData.image, 'YOUR_API_KEY');
+    // console.log("evidenceCID", evidenceCID)
+    // make a call to attach evidence to politician 
 
+    const result = await storeNFT(formData.image, "evidence", formData.image)
+    console.log("RESULT!!!!!", result)
     // TODO:  call the addPolitician ABI 
   };
 
   const handleAddEvidence = async (e: React.FormEvent<HTMLFormElement>) => {
+
+    // Here, you can access the form data from the formData state variable
+    console.log('Form Data:', formData.image);
     // Convert and add personObject to IPFS
-    const evidenceCID = await lighthouse.upload('/path/to/adorable/dog.jpg', 'YOUR_API_KEY');
+    const evidenceCID = await lighthouse.upload(formData.image, 'YOUR_API_KEY');
     console.log("evidenceCID", evidenceCID)
     // TODO:  call the addEvidence ABI 
   };
