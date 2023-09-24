@@ -2,7 +2,7 @@ import { ethers } from "hardhat";
 
 async function main() {
 
-  const bb = await ethers.deployContract("BB");
+  const bb = await ethers.deployContract("BiggerBrother");
   await bb.waitForDeployment();
 
   console.log(
