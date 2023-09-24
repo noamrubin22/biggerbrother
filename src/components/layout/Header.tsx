@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ConnectButton } from "../landing/ConnectButton";
 import Image from "next/image";
 import { useAccount } from "wagmi";
 import { useRouter } from "next/router";
 
-interface HeaderProps {}
-export const Header: React.FC<HeaderProps> = ({}) => {
+interface HeaderProps {
+  setShowPoliticianForm: Dispatch<SetStateAction<boolean>>;
+}
+
+export const Header: React.FC<HeaderProps> = ({ setShowPoliticianForm }) => {
   const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false);
-  const [addPolitician, setAddPolitician] = useState<boolean>(false);
+
   const [alignment, setAlignment] = useState<string>("between");
   const router = useRouter();
 
@@ -33,7 +36,7 @@ export const Header: React.FC<HeaderProps> = ({}) => {
         {isWalletConnected && (
           <button
             className="border font-mono bg-neutral-300 text-neutral-700 rounded-lg p-3 m-2"
-            onClick={() => setAddPolitician(true)}
+            onClick={() => setShowPoliticianForm(true)}
           >
             Add politician
           </button>
