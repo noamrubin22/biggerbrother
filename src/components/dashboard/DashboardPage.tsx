@@ -3,7 +3,7 @@ import { Card } from "./Card";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { createHelia } from 'helia'
-import { json } from '@helia/json'
+import { dagJson } from '@helia/dag-json'
 import lighthouse from "@lighthouse-web3/sdk";
 import { Politicians } from "./Politicians";
 import { Form } from "./Form";
@@ -58,7 +58,7 @@ export const DashboardPage = () => {
 
   const handleAddPolitician = async () => {
     const helia = await createHelia()
-    const j = json(helia)
+    const j = dagJson(helia)
     // Convert and add personObject to IPFS
     const politicianCID = await j.add({
       name: "Joe Biden",

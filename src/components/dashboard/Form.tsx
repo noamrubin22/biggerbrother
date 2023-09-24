@@ -1,12 +1,16 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { createHelia } from 'helia'
-import { json } from '@helia/json'
+import { dagJson } from '@helia/dag-json'
 import lighthouse from "@lighthouse-web3/sdk";
 import { useContractWrite } from "wagmi";
 import { stringToBytes } from "viem";
+import bs58 from 'bs58'
 
 
+// const getBytes32FromIpfsHash = (cid) => {
+//   return "0x"+bs58.decode(cid).slice(2).toString('hex')
+// }
 
 export const Form = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -130,7 +134,7 @@ export const Form = () => {
     e.preventDefault();
     console.log(e)
     const helia = await createHelia()
-    const j = json(helia)
+    const j = dagJson(helia)
 
     // Here, you can access the form data from the formData state variable
     console.log('Form Data:', formData.name);
@@ -140,6 +144,7 @@ export const Form = () => {
     // const { name, description, image } = Object.fromEntries(formData.entries());
     // console.log("RAH", name, description, image);
     // Convert and add personObject to IPFS
+
     const politicianCID = await j.add({
       name: formData.name,
       description:formData.description,
@@ -149,15 +154,14 @@ export const Form = () => {
     console.log("politicianCID toString()", politicianCID.toString())
     console.log("politicianCID toJSON()", politicianCID.toJSON())
     console.log("politicianCID link()", politicianCID.link())
-
+    const { bytes, multihash: { digest } } = politicianCID.link();
+    const data = new TextDecoder().decode(bytes.subarray(5));
 
     // TODO:  call the addPolitician ABI 
 
     write({
-      args: [stringToBytes(politicianCID.toString())],
+      args: [data],
     })
-
-    
 
   };
 
