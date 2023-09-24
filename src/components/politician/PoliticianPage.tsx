@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
+import { motion } from "framer-motion";
 
 export const PoliticianPage = () => {
   const router = useRouter();
@@ -24,22 +25,30 @@ export const PoliticianPage = () => {
     }
     return Array.isArray(value) ? value[0] : value;
   };
-
-  console.log(image);
-  console.log(name);
-  const formattedImage = getFirstArrayElementOrValue(image);
+  const fadeInVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  };
 
   return (
-    <div className="flex flex-col justify-center text-center items-center font-mono">
-      <h1 className="text-2xl m-2 font-mono">{name}</h1>
-      <Image src={`${image}`} alt={"name"} width={300} height={200} />
-      <label className="label">
-        <span className="label-text ">Add evidence</span>
-      </label>
-      <input
-        type="file"
-        className="file-input file-input-bordered w-full max-w-xs"
-      />
-    </div>
+    <motion.div
+      className="flex flex-col text-center items-center font-mono"
+      initial="hidden"
+      animate="visible"
+      variants={fadeInVariants}
+      transition={{ duration: 3 }}
+    >
+      <div className="flex flex-col text-center items-between font-mono">
+        <h1 className="text-5xl m-3 secondary-font ">{name}</h1>
+        <Image src={`${image}`} alt={"name"} width={300} height={200} />
+        <label className="label">
+          <span className="label-text ">Add evidence</span>
+        </label>
+        <input
+          type="file"
+          className="file-input file-input-bordered bg-neutral-300 text-neutral-500  max-w-xs"
+        />
+      </div>
+    </motion.div>
   );
 };

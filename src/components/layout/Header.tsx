@@ -4,8 +4,10 @@ import Image from "next/image";
 import { useAccount } from "wagmi";
 import { useRouter } from "next/router";
 
-export const Header = () => {
+interface HeaderProps {}
+export const Header: React.FC<HeaderProps> = ({}) => {
   const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false);
+  const [addPolitician, setAddPolitician] = useState<boolean>(false);
   const [alignment, setAlignment] = useState<string>("between");
   const router = useRouter();
 
@@ -27,12 +29,17 @@ export const Header = () => {
         <Image alt="Eye" src="/eye-small.png" height={50} width={20} />
         <h1 className="text-3xl m-2">Bigger Brother</h1>
       </div>
-      {/* {isWalletConnected && (
-        <button className="border font-mono bg-neutral-500 rounded-lg p-3 w-80">
-          ADD POLITICIAN
-        </button>
-      )} */}
-      {isWalletConnected && <ConnectButton />}
+      <div>
+        {isWalletConnected && (
+          <button
+            className="border font-mono bg-neutral-300 text-neutral-700 rounded-lg p-3 m-2"
+            onClick={() => setAddPolitician(true)}
+          >
+            Add politician
+          </button>
+        )}
+        {isWalletConnected && <ConnectButton />}
+      </div>
     </header>
   );
 };

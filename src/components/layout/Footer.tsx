@@ -12,14 +12,12 @@ export const Footer: React.FC<FooterProps> = ({ showText }) => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center mb-5">
+    <div className="flex flex-col justify-center items-center">
       {showText && isClient && (
         <div>
-          <p className="font-mono text-xs text-neutral-400">
+          <p className="secondary-font text-xl text-neutral-700 transparent/2 ">
             Who controls the past controls the future. Who controls the present
             controls the past.
-            {/* </p>{" "} */}
-            {/* <p className="font-mono text-xs text-neutral-400"> */}
           </p>
         </div>
       )}
