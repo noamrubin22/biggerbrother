@@ -16,7 +16,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       className={`flex w-full flex-col p-4 min-h-screen h-screen overflow-hidden`}
       style={{ height: "100svh" }}
     >
-      <Header isWalletConnected={isConnected} />
+      <Header />
       <main className="flex min-h-min flex-col justify-around items-center h-full">
         {children}
       </main>

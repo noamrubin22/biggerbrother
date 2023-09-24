@@ -1,6 +1,7 @@
 import React from "react";
 import { Card } from "./Card";
 import { motion } from "framer-motion";
+import { useRouter } from "next/router";
 
 const DUMMY_DATA = [
   {
@@ -9,22 +10,22 @@ const DUMMY_DATA = [
     truthPercentage: 40,
   },
   {
-    name: "Joe Biden",
+    name: "Somebody",
     image: "/dummy-image.jpg",
     truthPercentage: 40,
   },
   {
-    name: "Joe Biden",
+    name: "Else",
     image: "/dummy-image.jpg",
     truthPercentage: 40,
   },
   {
-    name: "Joe Biden",
+    name: "Hello",
     image: "/dummy-image.jpg",
     truthPercentage: 40,
   },
   {
-    name: "Joe Biden",
+    name: "Test Biden",
     image: "/dummy-image.jpg",
     truthPercentage: 40,
   },
@@ -46,6 +47,8 @@ const DUMMY_DATA = [
 ];
 
 export const DashboardPage = () => {
+  const router = useRouter();
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -59,12 +62,24 @@ export const DashboardPage = () => {
           style={{ width: `${DUMMY_DATA.length * 190}px` }}
         >
           {DUMMY_DATA.map((element, index) => {
+            const handleClick = () => {
+              router.push({
+                pathname: `/${element.name}`,
+                query: {
+                  name: element.name,
+                  image: element.image,
+                  truthPercentage: element.truthPercentage,
+                },
+              });
+            };
+
             return (
               <Card
                 key={index}
                 name={element.name}
                 image={element.image}
                 truthPercentage={element.truthPercentage}
+                handleClick={handleClick}
               />
             );
           })}

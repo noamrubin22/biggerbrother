@@ -5,7 +5,7 @@ import { useAccount, useDisconnect } from "wagmi";
 
 export const ConnectButton = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [isClient, setIsClient] = useState(false); // Track whether component is running on the client.
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
   const { open } = useWeb3Modal();
@@ -41,7 +41,7 @@ export const ConnectButton = () => {
         <button
           onClick={onClick}
           disabled={loading}
-          className="border font-mono rounded-lg p-4 m-2"
+          className="border font-mono rounded-lg p-3 m-2"
         >
           {loading
             ? "Loading..."
