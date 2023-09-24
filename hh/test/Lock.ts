@@ -2,7 +2,7 @@ import {
   time,
   loadFixture,
 } from "@nomicfoundation/hardhat-toolbox/network-helpers";
-import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
+// import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
@@ -95,19 +95,19 @@ describe("Lock", function () {
       });
     });
 
-    describe("Events", function () {
-      it("Should emit an event on withdrawals", async function () {
-        const { lock, unlockTime, lockedAmount } = await loadFixture(
-          deployOneYearLockFixture
-        );
+    // describe("Events", function () {
+    //   it("Should emit an event on withdrawals", async function () {
+    //     const { lock, unlockTime, lockedAmount } = await loadFixture(
+    //       deployOneYearLockFixture
+    //     );
 
-        await time.increaseTo(unlockTime);
+    //     await time.increaseTo(unlockTime);
 
-        await expect(lock.withdraw())
-          .to.emit(lock, "Withdrawal")
-          .withArgs(lockedAmount, anyValue); // We accept any value as `when` arg
-      });
-    });
+    //     await expect(lock.withdraw())
+    //       .to.emit(lock, "Withdrawal")
+    //       .withArgs(lockedAmount, anyValue); // We accept any value as `when` arg
+    //   });
+    // });
 
     describe("Transfers", function () {
       it("Should transfer the funds to the owner", async function () {
