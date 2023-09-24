@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { useFormContext } from "../layout/Layout";
 
 export const Form = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { setShowPoliticianForm } = useFormContext();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,59 +22,69 @@ export const Form = () => {
     router.push("/dashboard");
   };
 
+  const handleClick = () => {
+    setShowPoliticianForm(false);
+    router.push("/dashboard");
+  };
+
   return (
-    <div className="font-mono">
-      <h1 className="text-3xl text-center">Add a politician</h1>
-      <form
-        onSubmit={(e) => {
-          handleSubmit(e);
-        }}
-        className="mt-3 "
-      >
-        <div className="w-full">
-          <label className="flex flex-col mb-4">
-            <p className="label-text text-xs my-2">Name</p>
+    <div className="flex w-screen justify-evenly">
+      <button>
+        <img src="/back-btn.png" alt="Back button" onClick={handleClick} />
+      </button>
+      <div className="font-mono">
+        <h1 className="text-3xl text-center">Add a politician</h1>
+        <form
+          onSubmit={(e) => {
+            handleSubmit(e);
+          }}
+          className="mt-3 "
+        >
+          <div className="w-full">
+            <label className="flex flex-col mb-4">
+              <p className="label-text text-xs my-2">Name</p>
+              <input
+                type="text"
+                name="name"
+                placeholder="Joe Biden"
+                className="input input-bordered w-full max-w-xs"
+              />
+            </label>
+          </div>
+          <label className="flex flex-col text-left">
+            <p className="label-text text-xs my-2 ">Campaign promise</p>
             <input
               type="text"
-              name="name"
-              placeholder="Joe Biden"
+              name="promise"
+              placeholder="Climate Action"
               className="input input-bordered w-full max-w-xs"
             />
           </label>
-        </div>
-        <label className="flex flex-col text-left">
-          <p className="label-text text-xs my-2 ">Description</p>
-          <input
-            type="text"
-            name="description"
-            placeholder="President"
-            className="input input-bordered w-full max-w-xs"
-          />
-        </label>
-        <div className="form-control w-full max-w-xs mt-3">
-          <label className="label">
-            <span className="label-text text-xs">Add an image</span>
-          </label>
-          <input
-            type="file"
-            name="image"
-            className="file-input file-input-bordered w-full max-w-xs"
-          />
-        </div>
-        <div className="flex justify-start">
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="px-10 mt-5 text-lg w-full h-10 btn bg-neutral-900 hover:bg-black/70 rounded-md "
-          >
-            {isLoading ? (
-              <span className="loading loading-infinity loading-lg"></span>
-            ) : (
-              "Send"
-            )}
-          </button>
-        </div>
-      </form>
+          <div className="form-control w-full max-w-xs mt-3">
+            <label className="label">
+              <span className="label-text text-xs">Image</span>
+            </label>
+            <input
+              type="file"
+              name="image"
+              className="file-input file-input-bordered w-full max-w-xs"
+            />
+          </div>
+          <div className="flex justify-start">
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="px-10 mt-5 text-lg w-full h-10 btn bg-neutral-900 hover:bg-black/70 rounded-md "
+            >
+              {isLoading ? (
+                <span className="loading loading-infinity loading-lg"></span>
+              ) : (
+                "Send"
+              )}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

@@ -7,7 +7,7 @@ interface TruthMeasureProps {
 export const TruthMeasure: React.FC<TruthMeasureProps> = ({
   truthPercentage,
 }) => {
-  const colorClass = truthPercentage < 50 ? "text-red-800" : "text-green-600";
+  const colorClass = truthPercentage < 50 ? "text-red-700" : "text-green-600";
 
   return (
     <div className="flex flex-col gap-6 align-center items-center m-3 ">
