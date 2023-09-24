@@ -28,10 +28,11 @@
     "typescript": "5.2.2",
     "viem": "^1.12.1",
     "wagmi": "^1.4.2",
-    "@react-three/drei": "9.48.1",
-    "@react-three/fiber": "8.9.1"
+    "@react-three/drei": "9.48.1"
   },
   "devDependencies": {
-    "daisyui": "^3.7.7"
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "daisyui": "^3.7.7",
+    "hardhat": "^2.17.3"
   }
 }
