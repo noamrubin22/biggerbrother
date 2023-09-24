@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card } from "./Card";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { createHelia } from 'helia'
 import { json } from '@helia/json'
 import lighthouse from "@lighthouse-web3/sdk";
-
-
-
+import { Politicians } from "./Politicians";
+import { Form } from "./Form";
+import { useFormContext } from "../layout/Layout";
 
 const DUMMY_DATA = [
   {
@@ -51,9 +51,10 @@ const DUMMY_DATA = [
     truthPercentage: 40,
   },
 ];
-
+  
 export const DashboardPage = () => {
   const router = useRouter();
+  const { showPoliticianForm } = useFormContext();
 
   const handleAddPolitician = async () => {
     const helia = await createHelia()
@@ -103,35 +104,7 @@ export const DashboardPage = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 8 }}
     >
-      <div className="overflow-x-auto mx-2">
-        <div
-          className="flex flex-nowrap "
-          style={{ width: `${DUMMY_DATA.length * 190}px` }}
-        >
-          {DUMMY_DATA.map((element, index) => {
-            const handleClick = () => {
-              router.push({
-                pathname: `/${element.name}`,
-                query: {
-                  name: element.name,
-                  image: element.image,
-                  truthPercentage: element.truthPercentage,
-                },
-              });
-            };
-
-            return (
-              <Card
-                key={index}
-                name={element.name}
-                image={element.image}
-                truthPercentage={element.truthPercentage}
-                handleClick={handleClick}
-              />
-            );
-          })}
-        </div>
-      </div>
+      {showPoliticianForm ? <Form /> : <Politicians />}
     </motion.div>
   );
 };

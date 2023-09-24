@@ -16,7 +16,7 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <button onClick={handleClick}>
-      <div className="card w-96 shadow-xl border border-neutral-500 items-center text-center rounded-xl p-3 font-mono ">
+      <div className="card w-54 mx-10 shadow-xl border border-neutral-500 items-center text-center rounded-xl p-3 font-mono ">
         <h2 className="card-title text-xl">{name}</h2>
         <figure className="px-10 py-2">
           <img src={image} alt="Image" className="rounded-xl" />

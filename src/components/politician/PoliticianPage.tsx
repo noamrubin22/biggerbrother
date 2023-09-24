@@ -41,13 +41,28 @@ export const PoliticianPage = () => {
       <div className="flex flex-col text-center items-between font-mono">
         <h1 className="text-5xl m-3 secondary-font ">{name}</h1>
         <Image src={`${image}`} alt={"name"} width={300} height={200} />
+
         <label className="label">
-          <span className="label-text ">Add evidence</span>
+          <span className="label-text">Add evidence</span>
         </label>
-        <input
-          type="file"
-          className="file-input file-input-bordered bg-neutral-300 text-neutral-500  max-w-xs"
-        />
+        <label className="flex flex-col text-left">
+          <p className="label-text text-xs my-2 ">Description</p>
+          <input
+            type="text"
+            name="description"
+            placeholder="President"
+            className="input input-bordered w-full max-w-xs"
+          />
+        </label>
+        <label className="flex flex-col text-left">
+          <p className="label-text text-xs my-2 ">Description</p>
+          <input
+            type="text"
+            name="description"
+            placeholder="President"
+            className="input input-bordered w-full max-w-xs"
+          />
+        </label>
       </div>
     </motion.div>
   );
