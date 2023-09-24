@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@react-three/fiber": "^8.14.2",
+    "@helia/json": "^1.0.2",
+    "@lighthouse-web3/sdk": "^0.2.8",
     "@types/node": "20.6.3",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
@@ -19,6 +21,7 @@
     "eslint": "8.50.0",
     "eslint-config-next": "13.5.2",
     "framer-motion": "^10.16.4",
+    "helia": "^2.0.3",
     "next": "13.5.2",
     "postcss": "8.4.30",
     "react": "18.2.0",
