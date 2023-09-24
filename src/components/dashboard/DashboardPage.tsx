@@ -72,8 +72,6 @@ export const DashboardPage = () => {
     // TODO:  call the addPolitician ABI 
   };
 
-
-
   const handleAddEvidence = async () => {
 
     // Convert and add personObject to IPFS
@@ -88,14 +86,10 @@ export const DashboardPage = () => {
 
     // TODO:  call thepublic mapping in the smart contract
 
-
-
     //https://github.com/ipfs/helia#-json
     // can loop through the mapp and uncompresse the mapping object
     // const retrievedObject = await d.get(myImmutableAddress2)
     // console.log(retrievedObject)
-   
-   
   };
   return (
     <motion.div
