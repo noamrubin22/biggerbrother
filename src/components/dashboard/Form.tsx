@@ -1,14 +1,109 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useFormContext } from "../layout/Layout";
-import { createHelia } from "helia";
-import { json } from "@helia/json";
+import { createHelia } from 'helia'
+import { dagJson } from '@helia/dag-json'
 import lighthouse from "@lighthouse-web3/sdk";
+import { useContractWrite } from "wagmi";
+import { stringToBytes } from "viem";
+import bs58 from 'bs58'
+
+
+// const getBytes32FromIpfsHash = (cid) => {
+//   return "0x"+bs58.decode(cid).slice(2).toString('hex')
+// }
 
 export const Form = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { setShowPoliticianForm } = useFormContext();
+
+  let utf8 = new TextEncoder();
+
+  const BBABI = [
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "pCID",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "eCID",
+          "type": "bytes32"
+        }
+      ],
+      "name": "addNewEvidence",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "pCID",
+          "type": "bytes32"
+        }
+      ],
+      "name": "createPolitician",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "politicianToEvidenceMapping",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "politicians",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ];
+
+  const BBAddress = "0x604CdCF5f6593e7bB7708Fa1e70350cfD9940eaE";
+
+  const { data, isSuccess, write } = useContractWrite({
+    address: BBAddress,
+    abi: BBABI,
+    functionName: 'createPolitician',
+  })
 
   // Step 1: Define state variables for form input values
   const [formData, setFormData] = useState({
@@ -36,9 +131,10 @@ export const Form = () => {
 
   const handleAddPolitician = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(e);
-    const helia = await createHelia();
-    const j = json(helia);
+
+    console.log(e)
+    const helia = await createHelia()
+    const j = dagJson(helia)
 
     // Here, you can access the form data from the formData state variable
     console.log("Form Data:", formData.name);
@@ -48,17 +144,26 @@ export const Form = () => {
     // const { name, description, image } = Object.fromEntries(formData.entries());
     // console.log("RAH", name, description, image);
     // Convert and add personObject to IPFS
+
     const politicianCID = await j.add({
       name: formData.name,
-      description: formData.description,
-      image: formData.image,
-    });
+      description:formData.description,
+      image: formData.image
+    })
 
-    console.log("politicianCID toString()", politicianCID.toString());
-    console.log("politicianCID toJSON()", politicianCID.toJSON());
-    console.log("politicianCID link()", politicianCID.link());
+    console.log("politicianCID toString()", politicianCID.toString())
+    console.log("politicianCID toJSON()", politicianCID.toJSON())
+    console.log("politicianCID link()", politicianCID.link())
+    const { bytes, multihash: { digest } } = politicianCID.link();
+    const data = new TextDecoder().decode(bytes.subarray(5));
 
-    // TODO:  call the addPolitician ABI
+    // TODO:  call the addPolitician ABI 
+
+    write({
+      args: [data],
+    })
+
+
   };
 
   const handleAddEvidence = async (e: React.FormEvent<HTMLFormElement>) => {
