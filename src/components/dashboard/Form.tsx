@@ -4,6 +4,7 @@ import { createHelia } from 'helia'
 import { json } from '@helia/json'
 import lighthouse from "@lighthouse-web3/sdk";
 import { useContractWrite } from "wagmi";
+import { stringToBytes } from "viem";
 
 
 
@@ -153,7 +154,7 @@ export const Form = () => {
     // TODO:  call the addPolitician ABI 
 
     write({
-      args: [ethers.u
+      args: [stringToBytes(politicianCID.toString())],
     })
 
     
