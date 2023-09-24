@@ -3,10 +3,100 @@ import React, { useState } from "react";
 import { createHelia } from 'helia'
 import { json } from '@helia/json'
 import lighthouse from "@lighthouse-web3/sdk";
+import { useContractWrite } from "wagmi";
+
+
 
 export const Form = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
+
+  let utf8 = new TextEncoder();
+
+  const BBABI = [
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "pCID",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "eCID",
+          "type": "bytes32"
+        }
+      ],
+      "name": "addNewEvidence",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "pCID",
+          "type": "bytes32"
+        }
+      ],
+      "name": "createPolitician",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "politicianToEvidenceMapping",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "politicians",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ];
+
+  const BBAddress = "0x604CdCF5f6593e7bB7708Fa1e70350cfD9940eaE";
+
+  const { data, isSuccess, write } = useContractWrite({
+    address: BBAddress,
+    abi: BBABI,
+    functionName: 'createPolitician',
+  })
 
   // Step 1: Define state variables for form input values
   const [formData, setFormData] = useState({
@@ -61,6 +151,13 @@ export const Form = () => {
 
 
     // TODO:  call the addPolitician ABI 
+
+    write({
+      args: [ethers.u
+    })
+
+    
+
   };
 
   const handleAddEvidence = async (e: React.FormEvent<HTMLFormElement>) => {
