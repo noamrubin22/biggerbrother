@@ -39,7 +39,18 @@ contract BiggerBrother {
         bytes assertion = bytes(assertionString);
 
         // assert against the Optimistic Asserter
-        newEvidence.assertionId = oov3.assertTruthWithDefaults(assertion, address(this));
+        // newEvidence.assertionId = oov3.assertTruthWithDefaults(assertion, address(this));
+        newEvidence.assertionId = oov3.assertTruth(
+            assertion,
+            address(this),
+            address(this), // Callback recipient
+            address(0), // No sovereign security.
+            600,
+            defaultCurrency,
+            bond,
+            defaultIdentifier,
+            bytes32(0) // No domain.
+        );
 
         // add evidence to mapping
         politicianToEvidenceMapping[pCID].push(newEvidence);
