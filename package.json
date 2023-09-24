@@ -27,6 +27,8 @@
     "wagmi": "^1.4.2"
   },
   "devDependencies": {
-    "daisyui": "^3.7.7"
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "daisyui": "^3.7.7",
+    "hardhat": "^2.17.3"
   }
 }
