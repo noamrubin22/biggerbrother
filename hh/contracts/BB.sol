@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "https://github.com/UMAprotocol/protocol/blob/7a93650a7494eaee83756382a18ecf11314499cf/packages/core/contracts/optimistic-oracle-v3/interfaces/OptimisticOracleV3Interface.sol";
+import "./OptimisticOracleV3Interface.sol";
 
 contract BiggerBrother {
     // Array to hold all politician ids
@@ -13,6 +13,9 @@ contract BiggerBrother {
         Status uma_status;
         bytes32 assertionId;
     }
+
+    OptimisticOracleV3Interface oov3 =
+        OptimisticOracleV3Interface(0x9923D42eF695B5dd9911D05Ac944d4cAca3c4EAB);
 
     // Define a public mapping from bytes32 to an array of bytes32
     mapping(bytes32 => Evidence[]) public politicianToEvidenceMapping;
@@ -30,27 +33,27 @@ contract BiggerBrother {
 
     // Function to push a value to the array associated with a key
     function addNewEvidence(bytes32 pCID, bytes32 eCID) public {
-        Evidence newEvidence = new Evidence(eCID, Status.PENDING);
+        Evidence memory newEvidence = Evidence(eCID, Status.PENDING,0);
 
         // get assertion
         string memory pCIDString = string(abi.encodePacked(pCID));
         string memory eCIDString = string(abi.encodePacked(eCID));
-        string assertionString = string.concat("The following evidence is true for the politician. IPFS hashes: [Politician: ", pCIDString, "] [Evidence: ", eCIDString, "].");
-        bytes assertion = bytes(assertionString);
+        string memory assertionString = string.concat("The following evidence is true for the politician. IPFS hashes: [Politician: ", pCIDString, "] [Evidence: ", eCIDString, "].");
+        bytes memory assertion = bytes(assertionString);
 
         // assert against the Optimistic Asserter
-        // newEvidence.assertionId = oov3.assertTruthWithDefaults(assertion, address(this));
-        newEvidence.assertionId = oov3.assertTruth(
-            assertion,
-            address(this),
-            address(this), // Callback recipient
-            address(0), // No sovereign security.
-            600,
-            defaultCurrency,
-            bond,
-            defaultIdentifier,
-            bytes32(0) // No domain.
-        );
+        newEvidence.assertionId = oov3.assertTruthWithDefaults(assertion, address(this));
+        // newEvidence.assertionId = oov3.assertTruth(
+        //     assertion,
+        //     address(this),
+        //     address(this), // Callback recipient
+        //     address(0), // No sovereign security.
+        //     600,
+        //     defaultCurrency,
+        //     bond,
+        //     defaultIdentifier,
+        //     bytes32(0) // No domain.
+        // );
 
         // add evidence to mapping
         politicianToEvidenceMapping[pCID].push(newEvidence);
